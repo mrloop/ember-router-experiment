@@ -2,10 +2,13 @@ import { pageTitle } from 'ember-page-title';
 import { hash } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
 import Component from '@glimmer/component';
+import { service } from '@ember/service';
 
 export default class extends Component {
+  @service router;
+
   get filteredArticles() {
-    let category = this.args.controller.category;
+    let category = this.router.currentRoute?.queryParams?.category;
     let articles = this.args.model;
 
     if (category) {
