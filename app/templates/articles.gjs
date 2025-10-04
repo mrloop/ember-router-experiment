@@ -1,21 +1,35 @@
 import { pageTitle } from 'ember-page-title';
 import { hash } from '@ember/helper';
 import { LinkTo } from '@ember/routing';
+import Component from '@glimmer/component';
 
-<template>
-  {{pageTitle "Articles"}}
+export default class extends Component {
+  get filteredArticles() {
+    let category = this.args.controller.category;
+    let articles = this.args.model;
 
-  <LinkTo @route="articles" @query={{hash category=""}}>Everything</LinkTo>
+    if (category) {
+      return articles.filter((article) => article.category === category);
+    } else {
+      return articles;
+    }
+  }
 
-  <LinkTo @route="articles" @query={{hash category="fauna"}}>Fauna</LinkTo>
+  <template>
+    {{pageTitle "Articles"}}
 
-  <LinkTo @route="articles" @query={{hash category="flora"}}>Flora</LinkTo>
+    <LinkTo @route="articles" @query={{hash category=""}}>Everything</LinkTo>
 
-  <ul>
-    {{#each @controller.filteredArticles as |article|}}
-      <li>{{article.name}}</li>
-    {{/each}}
-  </ul>
+    <LinkTo @route="articles" @query={{hash category="fauna"}}>Fauna</LinkTo>
 
-  {{outlet}}
-</template>
+    <LinkTo @route="articles" @query={{hash category="flora"}}>Flora</LinkTo>
+
+    <ul>
+      {{#each this.filteredArticles as |article|}}
+        <li>{{article.name}}</li>
+      {{/each}}
+    </ul>
+
+    {{outlet}}
+  </template>
+}
