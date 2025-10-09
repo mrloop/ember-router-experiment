@@ -11,6 +11,7 @@ export default class ArticlesRoute extends Route {
   };
 
   model(params) {
+    console.log('router model called');
     return [
       { name: 'bat', category: 'fauna' },
       { name: 'ash', category: 'flora' },
